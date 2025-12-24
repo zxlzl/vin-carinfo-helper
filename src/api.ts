@@ -30,8 +30,10 @@ export async function getCarInfo(
     const url = '/motor/owner_price_mis/go_api/vin_info'
     const response = await axios.get<CarInfoResponse>(url, {
       params: {
-        vin
-      },
+        vin,
+        match_source: 7,
+        only_cache: true
+      }
       // headers: {
       //   'x-use-ppe': 1,
       //   'x-tt-env': 'ppe_invoice_info'
