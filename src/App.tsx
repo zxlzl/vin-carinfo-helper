@@ -41,7 +41,11 @@ export default function App() {
 
   const getCarInfoByVin = async (vin: string) => {
     const info = await getCarInfo(vin)
-    return info
+    const res = {
+      error: ' ',
+      ...info
+    }
+    return res
     // return {
     //   series_id: 72720,
     //   brand_id: 78850,
