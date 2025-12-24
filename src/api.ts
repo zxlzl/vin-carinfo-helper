@@ -20,34 +20,42 @@ interface CarInfoRes {
 interface CarInfoResponse {
   data: CarInfoRes
   status: string
+  message: string
 }
 
 
+/**
+ * vin码获取车款信息1v1精度匹配接口https://cloud.bytedance.net/bam/rd/motor.owner_price.go_mis/api_doc/show_doc?x-resource-account=public&x-bc-region-id=volc&version=1.0.8&cluster=default&endpoint_id=3765334
+ * @param vin 车辆vin码
+ * @returns 
+ */
 export async function getCarInfo(
   vin: string
 ): Promise<any> {
   try {
-    const url = '/motor/owner_price_mis/go_api/vin_info'
-    const response = await axios.get<CarInfoResponse>(url, {
-      params: {
-        vin,
-        match_source: 7,
-        only_cache: true
-      }
-      // headers: {
-      //   'x-use-ppe': 1,
-      //   'x-tt-env': 'ppe_invoice_info'
+    const params = {
+      vin_code:vin,
+      match_source: 7,
+      only_cache: false // 测试时传true，正式使用时传false
+    }
+      // const headers = {
+      //   'x-use-ppe': '1',
+      //   'x-tt-env': 'ppe_6612519540'
       // }
+    const url = '/motor/owner_price_mis/go_api/open_api/vin_info'
+    const response = await axios.post<CarInfoResponse>(url, params, {
+      // headers
     })
     const { data,status} = response ?? {}
     if (status !== 200) {
       throw new Error('network status error')
     }
-    const { data: resData, status: resSt } = data ?? {}
-    
-    if (resSt !== 'success') {
-      throw new Error('response status error')
+    const { data: resData, status: resSt, message } = data ?? {}
+    if (resSt !== '0') {
+      return {error: message}
+      // throw new Error('response status error')
     }
+    
     return resData
   } catch (error) {
     console.info(`Error fetching car info for vin: ${vin} ${(error as any).message}`)

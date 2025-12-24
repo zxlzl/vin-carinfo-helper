@@ -26,5 +26,10 @@ export const carInfoFieldNames = [
     name: '年款',
     type: FieldType.Text,
     fieldName: 'year'
+  },
+  {
+    name: '错误信息',
+    type: FieldType.Text,
+    fieldName: 'error'
   }
 ]

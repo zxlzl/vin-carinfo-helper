@@ -60,7 +60,6 @@ export default function App() {
     const table = await bitable.base.getActiveTable()
     // 获取vin码字段​
     const vinField = await table.getField<ITextField>(selectFieldId)
-
     // 首先获取 recordId ​
     const recordIdList = await table.getRecordIdList()
     // 对 record 进行遍历​
@@ -72,7 +71,7 @@ export default function App() {
         continue
       }
       // 根据vin码获取车款信息​
-      const carInfo = await getCarInfoByVin(vinValue) ?? {}
+      const  carInfo = await getCarInfoByVin(vinValue)
       // 将车款信息写入对应的字段中​
       carInfoFieldNames.forEach(async (item) => {
         const { name, fieldName } = item
@@ -86,6 +85,12 @@ export default function App() {
       })
     }
   }
+
+  // const transform1 = async () => {
+  //   const testVin = 'LS5A3DKE2MA544900'
+  //   const res = await getCarInfoByVin(testVin)
+  //   console.log('%csrc/App.tsx:93 res', 'color: #007acc;', res);
+  // }
 
   return (
     <div style={{ padding: 20 }}>
@@ -106,6 +111,9 @@ export default function App() {
         <Button type='primary' onClick={transform}>
           获取车款信息
         </Button>
+        {/* <Button type='primary' onClick={transform1}>
+          测试
+        </Button> */}
       </div>
       ​
     </div>

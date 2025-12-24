@@ -11,7 +11,7 @@ export default defineConfig({
     origin: 'https://motor-admin.bytedance.net',
     proxy: {
       // 匹配以 /api/vin 开头的请求，转发到目标接口
-      '/motor/owner_price_mis/api': {
+      '/motor/owner_price_mis': {
         target: 'https://motor-admin.bytedance.net', // 目标接口域名+路径前缀
         changeOrigin: true, // 关键：让后端认为请求来自目标域名（伪造 Origin）
         // rewrite: (path) =>{
