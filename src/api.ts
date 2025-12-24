@@ -1,7 +1,20 @@
 import axios from 'axios'
 
 interface CarInfoRes {
-
+  /** 品牌id */
+  brand_id: number
+  /** 车系id */
+  series_id: number
+  /** 车型id */
+  car_id: number
+  /** 车型名称 */
+  name: string
+  /** 外显名称 */
+  display_name: string
+  /** 年款 */
+  year: number
+  /** 之家id */
+  autohome_id: number
 }
 
 interface CarInfoResponse {
@@ -14,17 +27,15 @@ export async function getCarInfo(
   vin: string
 ): Promise<any> {
   try {
-    const url = '/motor/owner_price_mis/api/open_vin_info'
+    const url = '/motor/owner_price_mis/go_api/vin_info'
     const response = await axios.get<CarInfoResponse>(url, {
       params: {
         vin
       },
-      headers: {
-        'x-use-ppe': 1,
-        'x-tt-env': 'ppe_invoice_info'
-        // 可选：接口需要的鉴权头（如 token）
-        // 'Authorization': 'Bearer your-token-here',
-      }
+      // headers: {
+      //   'x-use-ppe': 1,
+      //   'x-tt-env': 'ppe_invoice_info'
+      // }
     })
     const { data,status} = response ?? {}
     if (status !== 200) {

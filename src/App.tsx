@@ -1,13 +1,11 @@
 import './App.css';
-import { BaseFormApi } from '@douyinfe/semi-foundation/lib/es/form/interface';
-import { ReactElement, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { bitable, IFieldMeta, ITextField } from '@lark-base-open/js-sdk'
 import { Button, Select, Toast } from '@douyinfe/semi-ui'
 import { getCarInfo } from './api'
 import { carInfoFieldNames } from './const'
 
 export default function App() {
-  const [loadErr, setLoadErr] = useState(false)
   const [metaList, setMetaList] = useState<IFieldMeta[]>([])
   const [selectFieldId, setSelectFieldId] = useState<string>()
 
@@ -43,17 +41,14 @@ export default function App() {
 
   const getCarInfoByVin = async (vin: string) => {
     const info = await getCarInfo(vin)
-    // return info
-    return {
-      auto_id: 72720,
-      brand_name: '别克',
-      car_id: 252447,
-      car_name: '至境L7 2025款 艾维亚',
-      data_from: '懂车帝',
-      official_price: 21.99,
-      series_name: '至境L7',
-      year: 2025
-    }
+    return info
+    // return {
+    //   series_id: 72720,
+    //   brand_id: 78850,
+    //   car_id: 252447,
+    //   name: '至境L7 2025款 艾维亚',
+    //   year: 2025
+    // }
   }
 
   const transform = async () => {
@@ -77,7 +72,7 @@ export default function App() {
         continue
       }
       // 根据vin码获取车款信息​
-      const carInfo = await getCarInfoByVin(vinValue)
+      const carInfo = await getCarInfoByVin(vinValue) ?? {}
       // 将车款信息写入对应的字段中​
       carInfoFieldNames.forEach(async (item) => {
         const { name, fieldName } = item
@@ -85,7 +80,9 @@ export default function App() {
         const { id } = target as IFieldMeta
         const field = await table.getField(id)
         const val = carInfo[fieldName as keyof typeof carInfo]
-        await field.setValue(recordId, val)
+        if (val!==undefined) {
+          await field.setValue(recordId, val)
+        }
       })
     }
   }
