@@ -1,4 +1,4 @@
-import './App.css';
+import './App.css'
 import { useEffect, useState } from 'react'
 import { bitable, IFieldMeta, ITextField } from '@lark-base-open/js-sdk'
 import { Button, Select, Toast } from '@douyinfe/semi-ui'
@@ -8,7 +8,6 @@ import { carInfoFieldNames } from './const'
 export default function App() {
   const [metaList, setMetaList] = useState<IFieldMeta[]>([])
   const [selectFieldId, setSelectFieldId] = useState<string>()
-
   const initTable = async () => {
     const table = await bitable.base.getActiveTable()
     const fieldMetaList = await table.getFieldMetaList()
@@ -32,7 +31,6 @@ export default function App() {
   useEffect(() => {
     initTable()
   }, [])
-
 
   const formatFieldMetaList = (metaList: IFieldMeta[]) => {
     const arr = metaList.map((meta) => ({ label: meta.name, value: meta.id }))
@@ -75,7 +73,7 @@ export default function App() {
         continue
       }
       // 根据vin码获取车款信息​
-      const  carInfo = await getCarInfoByVin(vinValue)
+      const carInfo = await getCarInfoByVin(vinValue)
       // 将车款信息写入对应的字段中​
       carInfoFieldNames.forEach(async (item) => {
         const { name, fieldName } = item
@@ -83,7 +81,7 @@ export default function App() {
         const { id } = target as IFieldMeta
         const field = await table.getField(id)
         const val = carInfo[fieldName as keyof typeof carInfo]
-        if (val!==undefined) {
+        if (val !== undefined) {
           await field.setValue(recordId, val)
         }
       })
@@ -93,7 +91,7 @@ export default function App() {
   // const transform1 = async () => {
   //   const testVin = 'LS5A3DKE2MA544900'
   //   const res = await getCarInfoByVin(testVin)
-  //   console.log('%csrc/App.tsx:93 res', 'color: #007acc;', res);
+  //   console.log('%csrc/App.tsx:93 res', 'color: #007acc;', res)
   // }
 
   return (
