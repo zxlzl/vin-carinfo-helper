@@ -39,7 +39,7 @@ export async function getCarInfo(vin: string): Promise<any> {
     const params = {
       vin_code: vin,
       match_source: 7,
-      only_cache: isDev ? true : false // 测试时传true，正式使用时传false
+      only_cache: isDev ? false : true // 测试时传false，正式使用时传true
     }
     const url = `${
       isDev ? '' : 'https://motor-admin.bytedance.net'
